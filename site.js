@@ -180,8 +180,15 @@
     document.head.appendChild(st);
     box.style.backgroundImage = 'none';
     box.classList.add('rot');
+    /* ratio per picture id: first card in the content that carries that id and a ratio; unknown = wide */
+    const ratioOf = {};
+    (function walk(o, d){ if(!o || typeof o !== 'object' || d > 6) return; if(Array.isArray(o)){ o.forEach(x => walk(x, d + 1)); return; }
+      if(typeof o.id === 'string' && typeof o.ratio === 'string' && !(o.id in ratioOf)) ratioOf[o.id] = o.ratio;
+      Object.keys(o).forEach(k => walk(o[k], d + 1)); })(C, 0);
+    const rotIds = []; arr(S.heroPictures).forEach(v => { const id = ytId(v); if(id && rotIds.length < 7) rotIds.push(id); });
     rotPics.forEach((pic, i) => {
       const layer = document.createElement('i');
+      if(ratioOf[rotIds[i]] !== '9:16') layer.className = 'w';
       layer.style.backgroundImage = `url("${pic}")`;
       if(cycle > 40) layer.style.animationName = 'gaten';
       layer.style.animationDuration = cycle + 's';

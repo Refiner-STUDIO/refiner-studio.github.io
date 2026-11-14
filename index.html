@@ -132,6 +132,11 @@ header{
   header:has(.still.rot){min-height:0;padding-top:calc(88vw + 20px)}
   .still.rot{inset:0 0 auto 0;height:100vw;overflow:hidden;--peak:.6}
   .still.rot::after{background:linear-gradient(to bottom,rgba(10,11,15,.66) 0,rgba(10,11,15,.42) 42vw,rgba(10,11,15,.86) 84vw,#0A0B0F 100vw)}
+  /* wide pictures: whole picture sharp across the full width, blurred copy of the same picture fills the space above and below */
+  .still.rot i.w{background-size:0 0;filter:none;transform:none}
+  .still.rot i.w::before,.still.rot i.w::after{content:"";position:absolute;background-image:inherit;background-repeat:no-repeat;background-position:center}
+  .still.rot i.w::before{inset:-40px;background-size:cover;filter:blur(24px) brightness(.62)}
+  .still.rot i.w::after{left:0;right:0;top:50%;height:56.25vw;transform:translateY(-50%);background-size:100% 100%;filter:saturate(.92) contrast(1.02)}
 }
 .hero-fallback{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.08em;color:#CDD3DE;opacity:0;animation:fbshow .01s 1.5s forwards}
 .hero-fallback a{color:var(--silver);border-bottom:1px solid var(--accent)}
