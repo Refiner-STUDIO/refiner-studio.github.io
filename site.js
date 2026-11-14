@@ -171,13 +171,13 @@
   if(rotPics.length >= 2){
     const box = $('still');
     const cycle = Math.max(40, rotPics.length * 7);
-    if(cycle > 40){
-      /* longer cycle: keep every picture's fade-in (3.2s), hold (to 8s) and fade-out (to 11.2s) exactly as long as in the original 40s cycle */
-      const pc = t => (t / cycle * 100).toFixed(3) + '%';
-      const st = document.createElement('style');
-      st.textContent = `@keyframes gaten{0%,100%{opacity:0}${pc(3.2)},${pc(8)}{opacity:var(--peak,.46)}${pc(11.2)}{opacity:0}}`;
-      document.head.appendChild(st);
-    }
+    const pc = t => (t / cycle * 100).toFixed(3) + '%';
+    const st = document.createElement('style');
+    /* longer cycle: keep every picture's fade-in (3.2s), hold (to 8s) and fade-out (to 11.2s) exactly as long as in the original 40s cycle */
+    st.textContent = (cycle > 40 ? `@keyframes gaten{0%,100%{opacity:0}${pc(3.2)},${pc(8)}{opacity:var(--peak,.46)}${pc(11.2)}{opacity:0}}` : '')
+      /* phones only (same 600px as the phone hero): each picture is fully gone by the 7s handover, so two never show together */
+      + `@keyframes gatep{0%,100%{opacity:0}${pc(2.1)},${pc(4.9)}{opacity:var(--peak,.46)}${pc(7)}{opacity:0}}@media(max-width:600px){.still.rot i{animation-name:gatep!important}}`;
+    document.head.appendChild(st);
     box.style.backgroundImage = 'none';
     box.classList.add('rot');
     rotPics.forEach((pic, i) => {
